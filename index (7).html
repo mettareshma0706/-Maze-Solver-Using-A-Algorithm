@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A* Maze Solver — 20 Levels</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ░░ START SCREEN ░░ -->
+  <div id="screen-start" class="screen active">
+    <canvas id="bg-canvas"></canvas>
+    <div class="start-content">
+      <div class="title-wrap">
+        <h1 class="title glow-yellow">A<span class="star">★</span> MAZE SOLVER</h1>
+        <p class="subtitle glow-cyan">20 LEVELS &nbsp;·&nbsp; A* PATHFINDING &nbsp;·&nbsp; NEON EDITION</p>
+      </div>
+      <div class="start-info">
+        <span>🟢 Green = Start &nbsp; 🔴 Red = End</span><br/>
+        <span>🟡 Yellow = Optimal Path &nbsp; 🔵 Blue = Explored</span><br/><br/>
+        <span>Arrow Keys / WASD to move &nbsp;|&nbsp; SOLVE to watch A*</span>
+      </div>
+      <button class="btn btn-big glow-btn" id="btn-play">▶ &nbsp; PLAY</button>
+    </div>
+  </div>
+
+  <!-- ░░ GAME SCREEN ░░ -->
+  <div id="screen-game" class="screen">
+    <div id="maze-wrap">
+      <canvas id="maze-canvas"></canvas>
+    </div>
+    <div id="panel">
+      <div class="panel-section">
+        <div class="label">LEVEL</div>
+        <div class="big-num glow-yellow" id="lbl-level">01</div>
+        <div class="label">/ 20</div>
+      </div>
+      <hr class="divider"/>
+      <div class="panel-section">
+        <div class="label">TIME</div>
+        <div class="med-num glow-cyan" id="lbl-time">00:00</div>
+      </div>
+      <hr class="divider"/>
+      <div class="panel-section">
+        <div class="label">SCORE</div>
+        <div class="med-num glow-green" id="lbl-score">0</div>
+      </div>
+      <hr class="divider"/>
+      <div class="panel-section">
+        <div class="label">GRID</div>
+        <div class="small-num" id="lbl-grid">9×9</div>
+      </div>
+      <hr class="divider"/>
+      <div class="legend">
+        <div class="legend-title">A* LEGEND</div>
+        <div class="legend-row"><span class="dot" style="background:#00ff64"></span>Start</div>
+        <div class="legend-row"><span class="dot" style="background:#ff3250"></span>End</div>
+        <div class="legend-row"><span class="dot" style="background:#fff000"></span>Path</div>
+        <div class="legend-row"><span class="dot" style="background:#143050"></span>Explored</div>
+      </div>
+      <hr class="divider"/>
+      <div id="status-msg" class="status-msg"></div>
+      <div class="btn-group">
+        <button class="btn glow-btn" id="btn-solve">▷ &nbsp;SOLVE (A*)</button>
+        <button class="btn glow-btn" id="btn-reset">↺ &nbsp;RESET</button>
+        <button class="btn glow-btn" id="btn-next" disabled>→ &nbsp;NEXT LEVEL</button>
+        <button class="btn btn-dim" id="btn-menu">⌂ &nbsp;MENU</button>
+      </div>
+      <div class="controls-hint">WASD / ↑↓←→ &nbsp; Manual movement</div>
+    </div>
+  </div>
+
+  <!-- ░░ WIN SCREEN ░░ -->
+  <div id="screen-win" class="screen">
+    <canvas id="win-canvas"></canvas>
+    <div class="win-content">
+      <h1 class="win-title glow-yellow">YOU WIN!</h1>
+      <p class="win-sub glow-cyan">ALL 20 LEVELS COMPLETE</p>
+      <p class="win-score glow-green" id="win-score">TOTAL SCORE: 0</p>
+      <button class="btn btn-big glow-btn" id="btn-restart">↺ &nbsp; PLAY AGAIN</button>
+      <button class="btn glow-btn" id="btn-win-menu">⌂ &nbsp; MENU</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
