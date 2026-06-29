@@ -1,0 +1,326 @@
+/* ============================================
+   A* MAZE SOLVER — style.css
+   Neon / Dark theme
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #05050f;
+  --panel-bg:   #08081a;
+  --panel-bord: #2850a0;
+  --neon-yellow:#fff000;
+  --neon-cyan:  #00fff0;
+  --neon-green: #00ff64;
+  --neon-red:   #ff3250;
+  --neon-pink:  #ff32c8;
+  --gray:       #505878;
+  --dark-gray:  #1e2337;
+  --white:      #dce6ff;
+  --font-mono:  'Share Tech Mono', monospace;
+  --font-head:  'Orbitron', sans-serif;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-mono);
+}
+
+/* ── Screens ── */
+.screen {
+  position: fixed; inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.screen.active { display: flex; }
+
+/* ── Glow text helpers ── */
+.glow-yellow { color: var(--neon-yellow); text-shadow: 0 0 8px #fff000aa, 0 0 24px #fff000, 0 0 50px #ffcc0066; }
+.glow-cyan   { color: var(--neon-cyan);   text-shadow: 0 0 8px #00fff0aa, 0 0 24px #00fff0; }
+.glow-green  { color: var(--neon-green);  text-shadow: 0 0 8px #00ff64aa, 0 0 20px #00ff64; }
+.glow-red    { color: var(--neon-red);    text-shadow: 0 0 8px #ff3250aa, 0 0 20px #ff3250; }
+
+/* ════════════════════════════════════════════
+   START SCREEN
+   ════════════════════════════════════════════ */
+#screen-start {
+  flex-direction: column;
+  text-align: center;
+  background: var(--bg);
+}
+
+#bg-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.start-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.title-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+.title {
+  font-family: var(--font-head);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  animation: pulse-title 2s ease-in-out infinite;
+}
+.title .star { color: var(--neon-cyan); }
+
+@keyframes pulse-title {
+  0%,100% { text-shadow: 0 0 8px #fff000aa, 0 0 30px #fff000, 0 0 60px #ffcc0066; }
+  50%      { text-shadow: 0 0 16px #fff000ff, 0 0 50px #fff000, 0 0 90px #ffcc00aa; }
+}
+
+.subtitle {
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  letter-spacing: 0.15em;
+}
+
+.start-info {
+  font-size: 0.9rem;
+  color: var(--gray);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  padding: 12px 28px;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--neon-cyan);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  width: 100%;
+}
+.btn:hover:not(:disabled) {
+  background: rgba(0,255,240,0.08);
+  box-shadow: 0 0 12px var(--neon-cyan), inset 0 0 8px rgba(0,255,240,0.1);
+  transform: translateY(-1px);
+}
+.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:disabled {
+  border-color: var(--dark-gray);
+  color: var(--gray);
+  cursor: default;
+}
+
+.btn-big {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  padding: 16px 48px;
+  width: auto;
+  letter-spacing: 0.2em;
+}
+.btn-dim {
+  border-color: var(--dark-gray);
+  color: var(--gray);
+}
+.btn-dim:hover {
+  background: rgba(255,255,255,0.03);
+  box-shadow: none;
+  color: var(--white);
+  border-color: var(--gray);
+}
+
+.glow-btn {
+  box-shadow: 0 0 6px rgba(0,255,240,0.2);
+}
+
+/* ════════════════════════════════════════════
+   GAME SCREEN
+   ════════════════════════════════════════════ */
+#screen-game {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Maze area — 75% width */
+#maze-wrap {
+  flex: 0 0 75%;
+  width: 75%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #03030a;
+  position: relative;
+}
+
+#maze-canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* Panel — 25% width */
+#panel {
+  flex: 0 0 25%;
+  width: 25%;
+  height: 100%;
+  background: var(--panel-bg);
+  border-left: 2px solid var(--panel-bord);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 14px 12px;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.panel-section {
+  text-align: center;
+  padding: 6px 0;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: var(--gray);
+  letter-spacing: 0.2em;
+  margin-bottom: 2px;
+}
+
+.big-num {
+  font-family: var(--font-head);
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.med-num {
+  font-family: var(--font-head);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+}
+
+.small-num {
+  font-size: 1rem;
+  color: var(--white);
+  letter-spacing: 0.1em;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--panel-bord);
+  margin: 6px 0;
+  opacity: 0.6;
+}
+
+/* Legend */
+.legend {
+  padding: 4px 0;
+}
+.legend-title {
+  font-size: 0.65rem;
+  color: var(--gray);
+  letter-spacing: 0.2em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--gray);
+  padding: 2px 4px;
+}
+.dot {
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Status */
+.status-msg {
+  text-align: center;
+  font-size: 0.9rem;
+  min-height: 24px;
+  padding: 4px 0;
+  letter-spacing: 0.1em;
+}
+
+/* Button group */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.controls-hint {
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--dark-gray);
+  margin-top: auto;
+  padding-top: 10px;
+  letter-spacing: 0.08em;
+  border-top: 1px solid var(--panel-bord);
+}
+
+/* ════════════════════════════════════════════
+   WIN SCREEN
+   ════════════════════════════════════════════ */
+#screen-win {
+  flex-direction: column;
+  text-align: center;
+  background: var(--bg);
+}
+
+#win-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.win-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 20px;
+}
+
+.win-title {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  animation: pulse-title 1.5s ease-in-out infinite;
+}
+.win-sub  { font-family: var(--font-head); font-size: clamp(1rem, 2.5vw, 1.6rem); letter-spacing: 0.2em; }
+.win-score{ font-family: var(--font-head); font-size: clamp(1.2rem, 3vw, 2rem); }
+
+/* ── Scrollbar ── */
+#panel::-webkit-scrollbar { width: 4px; }
+#panel::-webkit-scrollbar-track { background: transparent; }
+#panel::-webkit-scrollbar-thumb { background: var(--panel-bord); border-radius: 4px; }
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  #screen-game { flex-direction: column; }
+  #maze-wrap   { flex: 0 0 65%; width: 100%; height: 65%; }
+  #panel       { flex: 0 0 35%; width: 100%; height: 35%; flex-direction: row; flex-wrap: wrap; border-left: none; border-top: 2px solid var(--panel-bord); padding: 8px; gap: 6px; }
+  .divider     { display: none; }
+  .legend, .controls-hint { display: none; }
+  .panel-section { flex: 0 0 auto; }
+  .btn-group   { flex-direction: row; flex-wrap: wrap; }
+  .btn         { padding: 8px 12px; font-size: 0.8rem; width: auto; }
+}
